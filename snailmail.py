@@ -20,6 +20,16 @@ import ssl
 from getpass import getpass
 
 
+def clean_recipients(content):
+    """Return lines from file content, removing empty lines, whitespace and comments."""
+    recipients = []
+    for line in content.splitlines():
+        line = line.strip()
+        if line and not line.startswith("#"):
+            recipients.append(line)
+    return recipients
+
+
 def get_attachments(attachments):
     a = []
     for attachment in attachments:
@@ -102,7 +112,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     body = args.body_file.read_text()
-    recipients = args.recipient_file.read_text()
+    recipients = clean_recipients(args.recipient_file.read_text())
 
     sender = args.sender or input("From: ")
     subject = args.subject or input("Subject: ")
