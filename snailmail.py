@@ -114,6 +114,9 @@ if __name__ == "__main__":
     body = args.body_file.read_text()
     recipients = clean_recipients(args.recipient_file.read_text())
 
+    for recipient in recipients:
+        print(recipient)
+    
     sender = args.sender or input("From: ")
     subject = args.subject or input("Subject: ")
 
@@ -121,7 +124,7 @@ if __name__ == "__main__":
 
     mails = [
         make_mail(sender, recipient, subject, body, attachments)
-        for recipient in recipients.splitlines()
+        for recipient in recipients
     ]
 
     if args.debug:
