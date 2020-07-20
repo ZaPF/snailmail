@@ -26,7 +26,13 @@ def clean_recipients(content):
     for line in content.splitlines():
         line = line.strip()
         if line and not line.startswith("#"):
-            recipients.append(line)
+            if "<" in line:
+                start = line.find("<")
+                end = line.find(">")
+                line_clean = line[start+1:end]
+            else:
+                line_clean = line
+            recipients.append(line_clean)
     return recipients
 
 
@@ -113,6 +119,8 @@ if __name__ == "__main__":
 
     body = args.body_file.read_text()
     recipients = clean_recipients(args.recipient_file.read_text())
+
+    print(recipients)
 
     for recipient in recipients:
         print(recipient)
